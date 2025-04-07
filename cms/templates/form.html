@@ -1,0 +1,33 @@
+<form method="POST">
+    {% csrf_token %}
+    {{ form.student_id.label_tag }} {{ form.student_id }} <br>
+
+    {{ form.name.label_tag }} {{ form.name }} <br>
+
+    {{ form.email.label_tag }} {{ form.email }} <br>
+
+    {{ form.course.label_tag }}
+    <select name="course" id="id_course" 
+            hx-get="{% url 'load_branches' %}" 
+            hx-target="#branch-dropdown" 
+            hx-trigger="change" 
+            class="form-control">
+        {% for value, label in form.fields.course.choices %}
+            <option value="{{ value }}" {% if form.initial.course == value %}selected{% endif %}>
+                {{ label }}
+            </option>
+        {% endfor %}
+    </select>
+    <br>
+
+    {{ form.branch.label_tag }}
+    <div id="branch-dropdown">
+        {{ form.branch }}
+    </div>
+    <br>
+
+    {{ form.current_year.label_tag }} {{ form.current_year }} <br>
+    {{ form.section.label_tag }} {{ form.section }} <br>
+
+    <button type="submit">Submit</button>
+</form>
