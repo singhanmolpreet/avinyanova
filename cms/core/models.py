@@ -1,32 +1,37 @@
 from django.db import models
+from django.conf import settings
 
-class branch(models.TextChoices):
-    CSE = 'CSE', 'Computer Science and Engineering'
-    EE = 'EE', 'Electrical Engineering'
-    ECE = 'ECE', 'Electronics and Communication Engineering'
-    IT = 'IT', 'Information Technology'
-    ME = 'ME', 'Mechanical Engineering'
-    CE = 'CE', 'Civil Engineering'
-
-class Student(models.Model):
-    student_id = models.CharField(max_length=50, unique=True)
-    name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    course=models.CharField(max_length=255)
-    branch = models.CharField(max_length=3, choices=branch.choices, default=None)
-    current_year = models.IntegerField(choices=[(i, i) for i in range(1, 5)], default=1)
-    max_year = models.IntegerField(blank=True, null=True, editable=False)
-    section = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'),
-                                                      ('E', 'E'), ('F', 'F'), ('G', 'G'), ('H', 'H')])
+class AcademicRecord(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=100)
+    marks_obtained = models.FloatField()
+    total_marks = models.FloatField()
+    semester = models.CharField(max_length=20)
+    proof = models.FileField(upload_to='proofs/academic/', null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} - {self.student_id}"
-    
-    def save(self, *args, **kwargs):
-        # Set max_year as current_year + 1 before saving
-        self.max_year = self.current_year + 1
-        super(Student, self).save(*args, **kwargs)
+        return f"{self.student} - {self.subject}"
 
-    class Meta:
-        verbose_name = 'Student'
-        verbose_name_plural = 'Students'
+class ExtraCurricularActivity(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    activity_name = models.CharField(max_length=100)
+    description = models.TextField()
+    date = models.DateField()
+    proof = models.FileField(upload_to='proofs/extracurricular/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student} - {self.activity_name}"
+
+class SportsAchievement(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    sport_name = models.CharField(max_length=100)
+    achievement = models.CharField(max_length=255)
+    level = models.CharField(max_length=100)  # eg. Intercollege, National, etc.
+    date = models.DateField()
+    proof = models.FileField(upload_to='proofs/sports/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student} - {self.sport_name}"

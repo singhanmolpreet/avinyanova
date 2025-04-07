@@ -1,21 +1,17 @@
 from django import forms
-from .models import Student
+from .models import AcademicRecord, ExtraCurricularActivity, SportsAchievement
 
-class StudentForm(forms.ModelForm):
+class AcademicRecordForm(forms.ModelForm):
     class Meta:
-        model = Student
-        fields = ['student_id', 'name', 'email',  'course', 'branch', 'current_year', 'section']
-    
-    # Custom validation for current_year
-    def clean_current_year(self):
-        current_year = self.cleaned_data.get('current_year')
-        if current_year < 1 or current_year > 4:
-            raise forms.ValidationError("Current Year must be between 1 and 4")
-        return current_year
+        model = AcademicRecord
+        fields = ['subject', 'marks_obtained', 'total_marks', 'semester', 'proof']
 
-    # Custom validation for email field
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if not email:
-            raise forms.ValidationError("Email is required")
-        return email
+class ExtraCurricularForm(forms.ModelForm):
+    class Meta:
+        model = ExtraCurricularActivity
+        fields = ['activity_name', 'description', 'date', 'proof']
+
+class SportsAchievementForm(forms.ModelForm):
+    class Meta:
+        model = SportsAchievement
+        fields = ['sport_name', 'achievement', 'level', 'date', 'proof']

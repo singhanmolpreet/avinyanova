@@ -1,0 +1,16 @@
+<!-- templates/extra_curricular.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Extra Curricular</title>
+</head>
+<body>
+    <h2>📚 Upload Extra Curricular Activity</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+    <a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
+</body>
+</html>

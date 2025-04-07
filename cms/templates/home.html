@@ -189,10 +189,10 @@
            <li><a href="/">Home</a></li>
           
            {% if user.is_authenticated %}
-               <li><a href="/">Upload CSV</a></li>
+               <li><a href="/upload/academic">Add</a></li>
                <li><a href="/logout">Logout</a></li>
            {% else %}
-               <li><a href="/">Upload CSV</a></li>
+               <li><a href="/upload/academic">Add</a></li>
                <li><a href="/login">Login</a></li>
                <li><a href="/signup">Sign Up</a></li>
            {% endif %}
