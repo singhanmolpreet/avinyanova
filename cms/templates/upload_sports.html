@@ -1,16 +1,48 @@
-<!-- templates/sports.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Upload Sports Achievement</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Upload Sports Achievement{% endblock %}
+
+{% block content %}
+<style>
+    .form-wrapper {
+        max-width: 500px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .form-wrapper h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    .form-wrapper form {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-wrapper button {
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 4px;
+    }
+    .form-wrapper a {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        color: #2c3e50;
+    }
+</style>
+
+<div class="form-wrapper">
     <h2>🏆 Upload Sports Achievement</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
     </form>
-    <a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
-</body>
-</html>
+    <a href="{% url 'student_dashboard' %}">← Back to Dashboard</a>
+</div>
+{% endblock %}

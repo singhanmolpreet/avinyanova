@@ -25,6 +25,14 @@ EMAIL_PORT = EMAIL_PORT
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
 
+GOOGLE_API_KEY = 'AIzaSyC7p0THvLhyCADXDtnFnP3CMj8GdWl5q3s'
+
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+     'static',  # This is the correct path now.
+]
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

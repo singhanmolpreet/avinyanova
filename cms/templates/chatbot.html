@@ -1,85 +1,13 @@
-{% extends 'base.html' %}
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="user_query" placeholder="Ask me anything...">
+    <button type="submit">Send</button>
+</form>
 
-{% block content %}
-<div class="center">
-    <div class="container">
-        <h1>Chatbot</h1>
+{% if chatbot_response %}
+    <p>Chatbot: {{ chatbot_response }}</p>
+{% endif %}
 
-        <div id="chat-history" style="text-align: left; height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
-            {% if chat_history %}
-                {% for turn in chat_history %}
-                    <p><strong style="color: green;">{{ turn.role }}:</strong> <span style="color: black;">{{ turn.content|safe }}</span></p>
-                    <span style="display: inline-block; height: 1rem"></span>
-                {% endfor %}
-            {% endif %}
-
-            {% if user_prompt %}
-                <div id="user_prompt">
-                    <p><strong style="color: green;">User:</strong> <span style="color: black;">{{ user_prompt }}</span></p>
-                </div>
-            {% endif %}
-            <span style="display: inline-block; height: 1rem"></span>
-            {% if response %}
-                <div id="response">
-                    <p><strong style="color: green;">Chatbot:</strong> <span style="color: black;">{{ response|safe }}</span></p>
-                </div>
-            {% endif %}
-        </div>
-
-        <script>
-            function scrollToBottom() {
-                var chatHistory = document.getElementById("chat-history");
-                chatHistory.scrollTop = chatHistory.scrollHeight;
-            }
-
-            window.onload = scrollToBottom;
-        </script>
-
-        <form id="voice_input_form" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" name="pdf_file" accept=".pdf">
-            <input type="text" id="user_prompt_input" name="user_prompt" placeholder="Enter your question">
-            <button type="submit">Send</button>
-            <button type="button" id="voice_input_button">Speak</button>
-        </form>
-
-    </div>
-</div>
-
-<script>
-    const recognition = new (window.webkitSpeechRecognition || window.SpeechRecognition)();
-    const synth = window.speechSynthesis;
-    let voiceInputUsed = false;
-
-    function startVoiceInput() {
-        voiceInputUsed = true;
-        recognition.lang = 'en-US';
-        recognition.start();
-    }
-
-    recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('user_prompt_input').value = transcript;
-        document.getElementById('voice_input_form').submit();
-    };
-
-    function speak(text) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        synth.speak(utterance);
-    }
-
-    function checkForNewResponse() {
-        if (voiceInputUsed && document.getElementById('response') && document.getElementById('response').innerText) {
-            const responseText = document.getElementById('response').innerText.replace("Chatbot:", "").trim();
-            speak(responseText);
-            voiceInputUsed = false;
-        }
-    }
-
-    document.getElementById('voice_input_form').addEventListener('submit', function(event) {
-        setTimeout(checkForNewResponse, 500);
-    });
-
-    document.getElementById('voice_input_button').addEventListener('click', startVoiceInput);
-</script>
-{% endblock %}
+{% if error_message %}
+    <p style="color:red">{{error_message}}</p>
+{% endif %}

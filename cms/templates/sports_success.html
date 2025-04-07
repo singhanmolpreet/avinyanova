@@ -1,11 +1,10 @@
-<!-- templates/sports_success.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sports Upload Success</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Sports Upload Success{% endblock %}
+
+{% block content %}
+<div class="success-message" style="text-align:center; padding: 50px;">
     <h2>✅ Sports Achievement uploaded successfully!</h2>
-    <a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
-</body>
-</html>
+    <a href="{% url 'student_dashboard' %}" style="text-decoration: none; color: #4CAF50;">⬅ Back to Dashboard</a>
+</div>
+{% endblock %}
