@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Teacher Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-12">
+            <h2>Student List</h2>
+            {% if student_data %}
+                <div class="list-group">
+                    {% for data in student_data %}
+                        <div class="list-group-item mb-3">
+                            <h3 class="h5">{{ data.student.name }} ({{ data.student.email }})</h3>
+                            
+                            <div class="mt-3">
+                                <h4 class="h6">Academic Records</h4>
+                                {% if data.academic_records %}
+                                    <ul class="list-unstyled">
+                                        {% for record in data.academic_records %}
+                                            <li>{{ record.subject }} - {{ record.marks_obtained }}/{{ record.total_marks }} ({{ record.semester }})</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="text-muted">No academic records found.</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mt-3">
+                                <h4 class="h6">Extra-curricular Activities</h4>
+                                {% if data.extracurricular_activities %}
+                                    <ul class="list-unstyled">
+                                        {% for activity in data.extracurricular_activities %}
+                                            <li>{{ activity.activity_name }} - {{ activity.date }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="text-muted">No extra-curricular activities found.</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mt-3">
+                                <h4 class="h6">Sports Achievements</h4>
+                                {% if data.sports_achievements %}
+                                    <ul class="list-unstyled">
+                                        {% for achievement in data.sports_achievements %}
+                                            <li>{{ achievement.sport_name }} - {{ achievement.achievement }} ({{ achievement.level }}) - {{ achievement.date }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="text-muted">No sports achievements found.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">No students found in the system.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
