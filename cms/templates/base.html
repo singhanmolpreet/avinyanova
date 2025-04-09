@@ -11,9 +11,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">🏫 Student Portal</a>
-            <div class="collapse navbar-collapse">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
+                        {% if user.role == 'TEACHER' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'teacher_dashboard' %}">Teacher Dashboard</a>
+                            </li>
+                        {% elif user.role == 'STUDENT' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'student_dashboard' %}">Student Dashboard</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                         </li>
@@ -34,5 +46,7 @@
         {% block content %}
         {% endblock %}
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
